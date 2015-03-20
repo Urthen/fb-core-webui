@@ -1,0 +1,18 @@
+extends layout
+block body
+	.container-fluid
+		.row
+			.col-xs-12
+				h1 FritBot Configuration
+
+				table.table.table-hover
+					thead
+						tr
+							td Key
+							td Value
+					tbody
+						each val, key in config
+							tr
+								td= key
+								td= val
+

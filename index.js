@@ -5,5 +5,6 @@ module.exports = {
         require('./src/startup'),
         require('./src/keepalive'),
         require('./src/commands'),
+        require('./src/config'),
         require('./src/modules')
     ] };
