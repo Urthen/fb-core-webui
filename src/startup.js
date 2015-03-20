@@ -6,8 +6,7 @@ module.exports = {
     required : true,
 
     init : function (bot) {
-        bot.configLoader.ensure('web_bind_address', 'localhost', 'Address to bind to');
-        bot.configLoader.ensure('web_port', '3000', 'Port to bind to');
+        bot.configLoader.ensure('port', '3000', 'Port for web server to listen on');
 
         bot.events.on('modulesLoaded', function () {
             web.startup(bot);
