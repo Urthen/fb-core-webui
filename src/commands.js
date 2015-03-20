@@ -27,8 +27,8 @@ function addModule (module) {
 	modules.push(entry);
 }
 
-function setupRoute (bot, app) {
-	app.route('/commands').get(function (req, res) {
+function setupRoute (web) {
+	web.app.route('/commands').get(function (req, res) {
 		res.render('commands', { modules : modules });
 	});
 }

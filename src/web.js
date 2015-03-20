@@ -1,14 +1,18 @@
 var express = require('express');
+var _ = require('lodash');
 
 function Web() {
     this.module_inits = [];
+    this.module_pages = [];
 }
 
 Web.prototype.startup = function (bot) {
     this.bot = bot;
+    this.bot.web = this;
     this.app = express();
 
-    this.app.locals = { fbversion : bot.version };
+    // Don't require other modules to require express.
+    this.express = express;
 
     // Setup core routes
     this.app.route('/').get(function (req, res) {
@@ -23,8 +27,10 @@ Web.prototype.startup = function (bot) {
     for (var i in this.module_inits) {
         var spec = this.module_inits[i];
         console.log('Running', spec.name, 'web initialization');
-        spec.func(this.bot, this.app);
+        spec.func(this);
     }
+
+    this.app.locals = { fbversion : bot.version, module_pages : _.sortBy(this.module_pages, 'name') };
 
     // Set up views!
     this.app.set('views', __dirname + '/../templates');
@@ -61,6 +67,19 @@ Web.prototype.shutdown = function () {
 
 Web.prototype.addInit = function (name, func) {
     this.module_inits.push({ name : name, func : func });
+};
+
+Web.prototype.addModuleApp = function (route, subapp, name) {
+    route = '/modules' + route;
+    if (name) {
+        this.module_pages.push({ name : name, url : route });
+    }
+
+    console.log(route, subapp);
+
+    this.app.use(route, subapp, function (req, res) {
+        res.render('module_page', { module_render : res.module_render });
+    });
 };
 
 var instance = new Web();

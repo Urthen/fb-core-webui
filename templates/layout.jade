@@ -31,12 +31,12 @@ html
 								span.caret
 							ul.dropdown-menu(role='menu')
 								li
-									a(href='/modules/config') Enable/Disable
+									a(href='/modules') Enable/Disable
 								li.divider
-								li
-									a(href='#') Facts
-								li
-									a(href='#') Quotes
+								if module_pages
+									each page in module_pages
+										li
+											a(href=page.url)= page.name
 					ul.nav.navbar-nav.navbar-right
 						li
 							a(href='/config') Config

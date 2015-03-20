@@ -12,6 +12,6 @@ module.exports = {
         console.log('Keeping alive every', bot.config.keepalive_interval, 'seconds at', url);
         setInterval(function () {
                 request.get(url, function () {});
-            }, bot.config.keepalive_interval * 1000);
+            }, bot.config.keepalive_interval * 60 * 1000);
     }
 };

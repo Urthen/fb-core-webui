@@ -5,6 +5,11 @@ var modules = [];
 function addModule (module) {
 	// If this is a top-level module, store it.
 	if (!module.parent) {
+		if (module.author && !module.author.name) {
+			module.author = {
+				name : module.author
+			};
+		}
 		modules.push(module);
 	}
 
@@ -15,8 +20,8 @@ function addModule (module) {
 	}
 }
 
-function setupRoute (bot, app) {
-	app.route('/modules/config').get(function (req, res) {
+function setupRoute (web) {
+	web.app.route('/modules').get(function (req, res) {
 		res.render('modules', { modules : modules });
 	});
 }
