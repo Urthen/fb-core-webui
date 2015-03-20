@@ -1,0 +1,34 @@
+{
+  "name": "fb-core-webui",
+  "version": "0.1.0",
+  "description": "Fritbot Core Web UI",
+  "dependencies": {
+    "request": "",
+    "express": ">=4.0.0",
+    "errorhandler": "",
+    "jade": ""
+  },
+  "devDependencies": {
+    "grunt": "",
+    "grunt-push-release": "",
+    "grunt-contrib-jshint": "",
+    "grunt-jscs": ""
+  },
+  "main": "./src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Urthen/fb-core-webui.git"
+  },
+  "keywords": [
+    "fritbot",
+    "chat",
+    "fritbot-module",
+    "fritbot-ui"
+  ],
+  "author": "Michael Pratt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Urthen/fb-core-webui/issues"
+  },
+  "homepage": "https://github.com/Urthen/fb-core-webui"
+}
