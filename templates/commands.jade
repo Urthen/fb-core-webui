@@ -1,0 +1,24 @@
+extends layout
+block body
+	.container-fluid
+		.row
+			.col-xs-12
+				h1 Available commands
+				#modules.panel-group(role='tablist', aria-multiselectable='true')
+					each module, mindex in modules
+						.panel.panel-default
+							.panel-heading(role='tab', id='moduleHeading'+mindex)
+								a(data-toggle='collapse', data-parent='#modules', href='#moduleDetails'+mindex)= module.name
+							.panel-collapse.collapse(role='tabpanel', id='moduleDetails'+mindex)
+								.panel-body
+									p= module.description
+									ul.list-group
+										each command in module.commands
+											li.list-group-item
+												.command
+													strong= command.name
+													|  - #{command.usage}
+												.command
+													p= command.description
+													div
+														code= command.trigger

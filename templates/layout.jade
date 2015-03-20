@@ -22,16 +22,16 @@ html
 				#headernav.collapse.navbar-collapse
 					ul.nav.navbar-nav
 						li
-							a(href='#') Home
+							a(href='/') Home
 						li
-							a(href='#') Commands
+							a(href='/commands') Commands
 						li.dropdown
 							a.dropdown-toggle(href='#', data-toggle='dropdown' role='button' aria-expanded='false')
 								| Modules
 								span.caret
 							ul.dropdown-menu(role='menu')
 								li
-									a(href='#') Enable/Disable
+									a(href='/modules/config') Enable/Disable
 								li.divider
 								li
 									a(href='#') Facts
@@ -45,6 +45,7 @@ html
 			.container-fluid
 				.navbar-text
 					a(href='https://github.com/Urthen/fritbot', target='_blank').navbar-link FritBot
-					span.text-muted  v#{fbversion}
+					|  
+					span.label.label-default v#{fbversion}
 					span  - The Angriest Bot, By 
 					a(href='https://twitter.com/urthen', target='_blank').navbar-link Michael Pratt

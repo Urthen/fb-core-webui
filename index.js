@@ -3,5 +3,7 @@ module.exports = {
     description : 'Core front-end functionality.',
     children : [
         require('./src/startup'),
-        require('./src/keepalive')
+        require('./src/keepalive'),
+        require('./src/commands'),
+        require('./src/modules')
     ] };

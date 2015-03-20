@@ -1,6 +1,8 @@
 var express = require('express');
 
-function Web() {}
+function Web() {
+    this.module_inits = [];
+}
 
 Web.prototype.startup = function (bot) {
     this.bot = bot;
@@ -8,6 +10,7 @@ Web.prototype.startup = function (bot) {
 
     this.app.locals = { fbversion : bot.version };
 
+    // Setup core routes
     this.app.route('/').get(function (req, res) {
         res.render('index');
     });
@@ -15,6 +18,13 @@ Web.prototype.startup = function (bot) {
     this.app.route('/health').get(function (req, res) {
         res.send('Now witness the firepower of this fully ARMED and OPERATIONAL bot-tlestation!');
     });
+
+    // Call module route initializers
+    for (var i in this.module_inits) {
+        var spec = this.module_inits[i];
+        console.log('Running', spec.name, 'web initialization');
+        spec.func(this.bot, this.app);
+    }
 
     // Set up views!
     this.app.set('views', __dirname + '/../templates');
@@ -43,11 +53,14 @@ Web.prototype.startup = function (bot) {
     console.log('Web listening on', this.bot.config.web.bind_address + ':' + this.bot.config.web.port);
 
     this.bot.events.on('shutdown', this.shutdown.bind(this));
-    this.bot.events.emit('webready');
 };
 
 Web.prototype.shutdown = function () {
     this.server.close();
+};
+
+Web.prototype.addInit = function (name, func) {
+    this.module_inits.push({ name : name, func : func });
 };
 
 var instance = new Web();

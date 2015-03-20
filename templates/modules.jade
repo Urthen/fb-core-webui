@@ -1,0 +1,50 @@
+extends layout
+
+block body
+	.container-fluid
+		.row
+			.col-xs-12
+				h1 Installed Modules
+				each module in modules
+					.panel.panel-default
+						.panel-heading
+							.panel-title
+								| #{module.displayname} 
+								if module.version
+									span.label.label-default v#{module.version}
+						.panel-body
+							.info
+								.name
+									span.glyphicon.glyphicon-tag
+									|  #{module.name}
+								if module.author
+									.author
+										span.glyphicon.glyphicon-user
+										|  #{module.author}
+								if module.homepage
+									.homepage
+										span.glyphicon.glyphicon-home
+										a(href=module.homepage, target='_blank')
+											|  #{module.homepage}
+
+							p
+								.well= module.description
+
+							if module.children
+								table.table.table-hover
+									thead
+										tr
+											td Child
+											td Description
+											td Actions
+									tbody
+										each child in module.children
+											tr
+												td= child.displayname
+												td= child.description
+												td
+													if child.required
+														.btn.btn-warning.btn-sm Required
+													else
+														a.btn.btn-danger.btn-sm Disable
+
