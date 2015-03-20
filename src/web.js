@@ -1,6 +1,19 @@
 var express = require('express');
 var _ = require('lodash');
 
+function notFoundHandler(req, res) {
+    if (req.accepts('html')) {
+        res.status(404);
+        res.render('404', { url : req.url });
+        return;
+    }
+    if (req.accepts('json')) {
+        res.send({ error : 'Not found' });
+        return;
+    }
+    res.type('txt').send('Not found');
+}
+
 function Web() {
     this.module_inits = [];
     this.module_pages = [];
@@ -40,18 +53,7 @@ Web.prototype.startup = function (bot) {
     this.app.use('/static', express.static(__dirname + '/../static/'));
 
     // In case of 404, respond in the most appropriate way possible.
-    this.app.use(function (req, res) {
-        if (req.accepts('html')) {
-            res.status(404);
-            res.render('404', { url : req.url });
-            return;
-        }
-        if (req.accepts('json')) {
-            res.send({ error : 'Not found' });
-            return;
-        }
-        res.type('txt').send('Not found');
-    });
+    this.app.use(notFoundHandler);
 
     this.app.use(require('errorhandler')());
 
@@ -75,11 +77,32 @@ Web.prototype.addModuleApp = function (route, subapp, name) {
         this.module_pages.push({ name : name, url : route });
     }
 
-    console.log(route, subapp);
-
+    // Render pages if the prior middleware passes it here.
+    // It is perfectly valid for the subapp to render the page and not call next().
     this.app.use(route, subapp, function (req, res) {
+        if (!res.module_render) {
+            notFoundHandler(req, res);
+            return;
+        }
         res.render('module_page', { module_render : res.module_render });
     });
+};
+
+Web.prototype.render = function (app, template, func) {
+    if (!func) { func = function (req, next) { next({}); }; }
+
+    return function (req, res, next) {
+        func(req, function (data) {
+            app.render(template, data, function (err, html) {
+                if (err) {
+                    next(err);
+                } else {
+                    res.module_render = html;
+                    next();
+                }
+            });
+        });
+    };
 };
 
 var instance = new Web();
