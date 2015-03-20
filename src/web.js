@@ -49,8 +49,8 @@ Web.prototype.startup = function (bot) {
 
     this.app.use(require('errorhandler')());
 
-    this.server = this.app.listen(this.bot.config.web.port, this.bot.config.web.bind_address);
-    console.log('Web listening on', this.bot.config.web.bind_address + ':' + this.bot.config.web.port);
+    this.server = this.app.listen(this.bot.config.web_port, this.bot.config.web_bind_address);
+    console.log('Web listening on', this.bot.config.web_bind_address + ':' + this.bot.config.web_port);
 
     this.bot.events.on('shutdown', this.shutdown.bind(this));
 };

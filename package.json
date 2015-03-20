@@ -6,7 +6,8 @@
     "request": "",
     "express": ">=4.0.0",
     "errorhandler": "",
-    "jade": ""
+    "jade": "",
+    "lodash": ""
   },
   "devDependencies": {
     "grunt": "",

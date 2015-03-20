@@ -1,9 +1,22 @@
-var config;
+var _ = require('lodash');
 
 function setupRoute (bot, app) {
-	config = bot.config;
 	app.route('/config').get(function (req, res) {
-		res.render('config', { config : config });
+		var keys = _.keys(bot.config);
+		var configs = _.reduce(keys.sort(), function (accum, key) {
+			var spec = {
+				key : key,
+				value : bot.config[key],
+				description : bot.configLoader.descriptions[key]
+			};
+
+			// If the description is explicitly set to null, don't show it.
+			if (spec.description !== null) {
+				accum.push(spec);
+			}
+			return accum;
+		}, []);
+		res.render('config', { configs : configs });
 	});
 }
 

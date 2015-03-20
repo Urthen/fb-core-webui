@@ -10,9 +10,11 @@ block body
 						tr
 							td Key
 							td Value
+							td Description
 					tbody
-						each val, key in config
+						each config, index in configs
 							tr
-								td= key
-								td= val
+								td= config.key
+								td= config.value
+								td= config.description
 
