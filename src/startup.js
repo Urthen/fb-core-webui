@@ -6,7 +6,10 @@ module.exports = {
     required : true,
 
     init : function (bot) {
-        bot.configLoader.ensure('port', '3000', 'Port for web server to listen on');
+
+        // Heroku needs special attention
+        var port = process.env.PORT;
+        bot.configLoader.ensure('port', port || '3000', 'Port for web server to listen on');
 
         bot.events.on('modulesLoaded', function () {
             web.startup(bot);
