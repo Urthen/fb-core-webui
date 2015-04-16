@@ -1,4 +1,5 @@
 var express = require('express');
+var ipfilter = require('express-ipfilter');
 var _ = require('lodash');
 
 function notFoundHandler(req, res) {
@@ -26,6 +27,11 @@ Web.prototype.startup = function (bot) {
 
     // Don't require other modules to require express.
     this.express = express;
+
+    // Restrict access to the webui via IP for now, and only if an actual IP or range was provided
+    // TODO: rip this out when webui user accounts are added
+    if (bot.config.web_ip_filter !== "undefined")
+        this.app.use(ipfilter(bot.config.web_ip_filter, {mode: 'allow'}));
 
     // Setup core routes
     this.app.route('/').get(function (req, res) {

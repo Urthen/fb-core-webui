@@ -6,6 +6,7 @@
     "request": "",
     "express": ">=4.0.0",
     "errorhandler": "",
+    "express-ipfilter": "0.0.19",
     "jade": "",
     "lodash": ""
   },
