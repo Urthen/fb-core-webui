@@ -13,7 +13,7 @@ module.exports = {
 
         // Set up ip whitelisting filter; pass 'undefined' if it's not there
         // TODO: rip this out when webui user accounts are added
-        bot.configLoader.ensure('web_ip_filter', 'undefined', 'IP address(es) for admin panel whitelist');
+        bot.configLoader.ensure('web_ipfilter', 'undefined', 'IP address(es) for admin panel whitelist');
 
         bot.events.on('modulesLoaded', function () {
             web.startup(bot);
