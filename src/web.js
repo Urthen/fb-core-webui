@@ -50,6 +50,7 @@ Web.prototype.startup = function (bot) {
     }
 
     this.app.locals = {
+        fbname : bot.config.name,
         fbversion : bot.version,
         module_pages : _.sortBy(this.module_pages, 'name'),
         theme : bot.config.web_theme
