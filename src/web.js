@@ -49,7 +49,11 @@ Web.prototype.startup = function (bot) {
         spec.func(this);
     }
 
-    this.app.locals = { fbversion : bot.version, module_pages : _.sortBy(this.module_pages, 'name') };
+    this.app.locals = {
+        fbversion : bot.version,
+        module_pages : _.sortBy(this.module_pages, 'name'),
+        theme : bot.config.web_theme
+    };
 
     // Set up views!
     this.app.set('views', __dirname + '/../templates');
