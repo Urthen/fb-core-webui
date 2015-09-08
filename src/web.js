@@ -30,8 +30,9 @@ Web.prototype.startup = function (bot) {
 
     // Restrict access to the webui via IP for now, and only if an actual IP or range was provided
     // TODO: rip this out when webui user accounts are added
-    if (bot.config.web_ipfilter !== "undefined")
-        this.app.use(ipfilter(bot.config.web_ipfilter, {mode: 'allow'}));
+    if (bot.config.web_ipfilter !== undefined) {
+        this.app.use(ipfilter(bot.config.web_ipfilter, { mode : 'allow' }));
+    }
 
     // Setup core routes
     this.app.route('/').get(function (req, res) {
