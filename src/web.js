@@ -3,9 +3,9 @@ var ipfilter = require('express-ipfilter');
 var _ = require('lodash');
 
 function notFoundHandler(req, res) {
+    res.status(404);
     if (req.accepts('html')) {
-        res.status(404);
-        res.render('404', { url : req.url });
+        res.render('error', { title : "404'ed!", text : "Don't press that button." });
         return;
     }
     if (req.accepts('json')) {
@@ -30,7 +30,7 @@ Web.prototype.startup = function (bot) {
 
     // Restrict access to the webui via IP for now, and only if an actual IP or range was provided
     // TODO: rip this out when webui user accounts are added
-    if (bot.config.web_ipfilter !== undefined) {
+    if (bot.config.web_ipfilter !== undefined && bot.config.web_ipfilter !== 'undefined') {
         this.app.use(ipfilter(bot.config.web_ipfilter, { mode : 'allow' }));
     }
 
@@ -115,6 +115,18 @@ Web.prototype.render = function (app, template, func) {
             });
         });
     };
+};
+
+Web.prototype.error = function (res, title, text) {
+    res.status(400);
+    this.app.render('error', { title : title, text : text }, function (err, html) {
+        if (err) {
+            console.log(err);
+            res.send("I error'ed while expressing my errors. I'm really a horrid bot.");
+        } else {
+            res.send(html);
+        }
+    });
 };
 
 var instance = new Web();
