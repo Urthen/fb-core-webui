@@ -5,11 +5,11 @@ html
         meta(http-equiv='X-UA-Compatible', content='IE=edge')
         meta(name='viewport', content='width=device-width, initial-scale=1')
         link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css')
-        link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootswatch/3.3.4/united/bootstrap.min.css')
+        link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootswatch/3.3.4/#{theme}/bootstrap.min.css')
         link(rel='stylesheet', href='/static/fritbot.css')
         script(src='//code.jquery.com/jquery-2.1.3.min.js')
         script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js')
-        title Fritbot Web UI
+        title #{fbname} Web UI
     body
         nav.navbar.navbar-default.navbar-fixed-top
             .container-fluid
@@ -20,7 +20,7 @@ html
                         span.icon-bar
                         span.icon-bar
 
-                    .navbar-brand FritBot Web UI
+                    .navbar-brand #{fbname} Web UI
 
                 #headernav.collapse.navbar-collapse
                     ul.nav.navbar-nav
