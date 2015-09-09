@@ -46,15 +46,16 @@ Web.prototype.startup = function (bot) {
     }));
 
     // Set up locals for templating
+    // These locals are only available in core webui templates - not modules
     this.app.locals = {
         fbname : bot.config.name,
         fbversion : bot.version,
         theme : bot.config.web_theme
     };
 
-    // Access session data in views
+    // Locals set here are made available (Via magic in the web.render function) to modules.
     this.app.use(function (req, res, next) {
-        res.locals.session = req.session;
+        res.locals.user = req.session.user;
         next();
     });
 
@@ -111,6 +112,8 @@ Web.prototype.addModuleApp = function (route, subapp, name) {
 
     // Render pages if the prior middleware passes it here.
     // It is perfectly valid for the subapp to render the page and not call next().
+    // If the subapp calls next but does not provide module_render (rendered HTML) on the response,
+    // generate a 404 page.
     this.app.use(route, subapp, function (req, res) {
         if (!res.module_render) {
             notFoundHandler(req, res);
@@ -120,11 +123,17 @@ Web.prototype.addModuleApp = function (route, subapp, name) {
     });
 };
 
+// Render the given template. Eliminates a lot of boilerplate for modules.
 Web.prototype.render = function (app, template, func) {
     if (!func) { func = function (req, next) { next({}); }; }
 
     return function (req, res, next) {
         func(req, function (data) {
+
+            // Since we're in two separate apps, add the response locals here so the module app render can access it.
+            _.defaults(data, res.locals);
+
+            // Use the module's app to render the template.
             app.render(template, data, function (err, html) {
                 if (err) {
                     next(err);
@@ -137,9 +146,11 @@ Web.prototype.render = function (app, template, func) {
     };
 };
 
+// Generate an error response and send it immediately.
 Web.prototype.error = function (res, title, text) {
     res.status(400);
-    this.app.render('error', { title : title, text : text }, function (err, html) {
+    // Need to pass in user, as it is hidden in the response rather than current app locals.
+    this.app.render('error', { title : title, text : text, user : res.locals.user }, function (err, html) {
         if (err) {
             console.log(err);
             res.send("I error'ed while expressing my errors. I'm really a horrid bot.");

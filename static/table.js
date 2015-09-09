@@ -1,9 +1,9 @@
 $('head').append('<link rel="stylesheet" href="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css" type="text/css" />');
 $(document).ready(function () {
     $('#maintable tfoot th').each( function () {
-        var title = $('#maintable thead th').eq( $(this).index() ).text();
+        var title = $(this).text();
         if (title) {
-            $(this).html( '<input type="text" class="form-control" placeholder="Search ' + title + '" />' );
+            $(this).html( '<input type="text" class="form-control" placeholder="' + title + '" />' );
         }
     } );
 

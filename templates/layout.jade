@@ -42,14 +42,17 @@ html
                                         li
                                             a(href=page.url)= page.name
                         li
-                            a(href='/config') Config
-                        li
                             a(href='/users') Users
+                        if user && user.admin
+                            li
+                                a(href='/config') Config
                     ul.nav.navbar-nav.navbar-right
-                        if session && session.user
+                        if user
                             li.dropdown
                                 a.dropdown-toggle(href='#', data-toggle='dropdown' role='button' aria-expanded='false')
-                                    | #{session.user.uid}
+                                    | #{user.uid} 
+                                    if user.admin
+                                        span (Admin) 
                                     span.caret
                                 ul.dropdown-menu(role='menu')
                                     li
