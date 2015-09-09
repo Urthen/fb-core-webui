@@ -18,6 +18,9 @@ module.exports = {
         // Set theme for web ui
         bot.configLoader.ensure('web_theme', 'united', 'Name of bootswatch.com theme to use for Web-UI');
 
+        // Sessionization secret
+        bot.configLoader.ensure('web_secret', 'fritbot', 'Web session secret');
+
         bot.events.on('modulesLoaded', function () {
             web.startup(bot);
         });

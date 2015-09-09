@@ -7,6 +7,8 @@
     "express": ">=4.0.0",
     "errorhandler": "",
     "express-ipfilter": "0.0.19",
+    "express-session": "1.113",
+    "connect-mongo": "0.8.2",
     "jade": "",
     "lodash": ""
   },

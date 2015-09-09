@@ -1,5 +1,7 @@
 var express = require('express');
 var ipfilter = require('express-ipfilter');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 var _ = require('lodash');
 
 function notFoundHandler(req, res) {
@@ -21,6 +23,7 @@ function Web() {
 }
 
 Web.prototype.startup = function (bot) {
+    console.log('Setting up web interface...');
     this.bot = bot;
     this.bot.web = this;
     this.app = express();
@@ -33,6 +36,31 @@ Web.prototype.startup = function (bot) {
     if (bot.config.web_ipfilter !== undefined && bot.config.web_ipfilter !== 'undefined') {
         this.app.use(ipfilter(bot.config.web_ipfilter, { mode : 'allow' }));
     }
+
+    // Setup user sessions
+    this.app.use(session({
+        secret : bot.config.web_secret,
+        store : new MongoStore({ mongooseConnection : bot.db.db }),
+        resave : false,
+        saveUninitialized : false
+    }));
+
+    // Set up locals for templating
+    this.app.locals = {
+        fbname : bot.config.name,
+        fbversion : bot.version,
+        theme : bot.config.web_theme
+    };
+
+    // Access session data in views
+    this.app.use(function (req, res, next) {
+        res.locals.session = req.session;
+        next();
+    });
+
+    // Set up views!
+    this.app.set('views', __dirname + '/../templates');
+    this.app.set('view engine', 'jade');
 
     // Setup core routes
     this.app.route('/').get(function (req, res) {
@@ -50,16 +78,8 @@ Web.prototype.startup = function (bot) {
         spec.func(this);
     }
 
-    this.app.locals = {
-        fbname : bot.config.name,
-        fbversion : bot.version,
-        module_pages : _.sortBy(this.module_pages, 'name'),
-        theme : bot.config.web_theme
-    };
-
-    // Set up views!
-    this.app.set('views', __dirname + '/../templates');
-    this.app.set('view engine', 'jade');
+    // Add module pages to locals
+    this.app.locals.module_pages = _.sortBy(this.module_pages, 'name');
 
     // Set up static resources directory
     this.app.use('/static', express.static(__dirname + '/../static/'));

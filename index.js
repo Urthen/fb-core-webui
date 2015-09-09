@@ -6,5 +6,6 @@ module.exports = {
         require('./src/keepalive'),
         require('./src/commands'),
         require('./src/config'),
-        require('./src/modules')
+        require('./src/modules'),
+        require('./src/auth')
     ] };

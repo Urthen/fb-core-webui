@@ -1,0 +1,35 @@
+extends layout
+
+block head
+    script(src='//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js')
+    script(src='//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js')
+    script(src='//cdn.datatables.net/scroller/1.2.2/js/dataTables.scroller.min.js')
+    script(src='/static/table.js')
+    link(rel='stylesheet', href='/static/table.css')
+
+block body
+    .container-fluid
+        .row
+            .col-xs-12
+                h1 User List
+                table.table.table-striped#maintable
+                    thead
+                        tr
+                            th Username
+                            th Seen
+                            th Status
+                    tfoot
+                        tr
+                            th Username
+                            th Seen
+                            th Status
+                    tbody
+                        each user in users
+                            tr
+                                td= user.uid
+                                td= user.seen
+                                td
+                                    if user.admin
+                                        span.label.label-success Admin
+                                    else
+                                        span.label.label-info User
