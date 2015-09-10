@@ -3,14 +3,14 @@
   "version": "0.2.3",
   "description": "Fritbot Core Web UI",
   "dependencies": {
-    "request": "",
+    "request": "2.53.0",
     "express": ">=4.0.0",
-    "errorhandler": "",
+    "errorhandler": "1.3.5",
     "express-ipfilter": "0.0.19",
-    "express-session": "1.113",
+    "express-session": "1.11.3",
     "connect-mongo": "0.8.2",
-    "jade": "",
-    "lodash": ""
+    "jade": "1.9.2",
+    "lodash": "3.5.0"
   },
   "devDependencies": {
     "grunt": "",
@@ -21,7 +21,7 @@
   "main": "./src/index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/Urthen/fb-core-webui.git"
+    "url": "git://github.com/fritbot/fb-core-webui.git"
   },
   "keywords": [
     "fritbot",
@@ -32,7 +32,7 @@
   "author": "Michael Pratt",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Urthen/fb-core-webui/issues"
+    "url": "https://github.com/fritbot/fb-core-webui/issues"
   },
-  "homepage": "https://github.com/Urthen/fb-core-webui"
+  "homepage": "https://github.com/fritbot/fb-core-webui"
 }
