@@ -26,7 +26,7 @@ block body
                     tbody
                         each user in users
                             tr
-                                td= user.uid
+                                td= user.nick || user.uid
                                 td= user.seen
                                 td
                                     if user.admin

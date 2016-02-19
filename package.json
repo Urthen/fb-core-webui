@@ -1,6 +1,6 @@
 {
   "name": "fb-core-webui",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Fritbot Core Web UI",
   "dependencies": {
     "request": "2.53.0",
